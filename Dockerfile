@@ -7,7 +7,7 @@ RUN apt-get update && \
 	apt-get -y install software-properties-common python-software-properties && \
 	add-apt-repository ppa:openjdk-r/ppa -y && \
 	apt update && \
-	apt -y install openjdk-7-jre openssl openssh-client openssh-server rsync sudo vim python3 python3-pip
+	apt -y install openjdk-7-jre openssl openssh-client openssh-server rsync sudo vim python3 python3-pip git
 
 # RUN ln -s /usr/bin/python3 /usr/bin/python
 
@@ -59,12 +59,14 @@ RUN chmod 744 -R $HADOOP_HOME
 # format HDFS
 RUN $HADOOP_HOME/bin/hdfs namenode -format
 
+# ResourceManager WebUI
+EXPOSE 8088
 # NameNode WebUI
 EXPOSE 50070
 # JobTracker WebUI
 EXPOSE 50030
-# HMaster Info Web UI
-EXPOSE 60010
+# MapReduce JobHistory Server
+EXPOSE 19888
 
 
 COPY bootstrap.sh /tmp/
