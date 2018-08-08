@@ -1,5 +1,7 @@
 FROM ubuntu:16.04
 
+MAINTAINER Shu Yan <yanshu.usc@gmail.com>
+
 USER root
 
 # update system
@@ -9,7 +11,7 @@ USER root
 RUN	apt update && \
 	apt -y install openjdk-8-jdk openssh-client openssh-server rsync sudo vim python3 python3-pip git
 
-# RUN ln -s /usr/bin/python3 /usr/bin/python
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # Create hadoop user
 RUN adduser --disabled-password --gecos '' hadoop
@@ -52,8 +54,9 @@ RUN cp /tmp/ssh_config $HOME/.ssh/config \
 	&& cp /tmp/core-site.xml $HADOOP_CONF_DIR/core-site.xml \
 	&& cp /tmp/hdfs-site.xml $HADOOP_CONF_DIR/hdfs-site.xml \
 	&& cp /tmp/mapred-site.xml $HADOOP_CONF_DIR/mapred-site.xml \
-	&& cp /tmp/mapred-site.xml $HADOOP_CONF_DIR/mapred-site.xml.template \
 	&& cp /tmp/yarn-site.xml $YARN_CONF_DIR/yarn-site.xml
+
+# && cp /tmp/mapred-site.xml $HADOOP_CONF_DIR/mapred-site.xml.template \
 
 # set permissions
 RUN chmod 744 -R $HADOOP_HOME
