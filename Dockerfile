@@ -3,11 +3,11 @@ FROM ubuntu:16.04
 USER root
 
 # update system
-RUN apt-get update && \
-	apt-get -y install software-properties-common python-software-properties && \
-	add-apt-repository ppa:openjdk-r/ppa -y && \
-	apt update && \
-	apt -y install openjdk-7-jre openssl openssh-client openssh-server rsync sudo vim python3 python3-pip git
+# RUN apt-get update && \
+# 	apt-get -y install software-properties-common python-software-properties && \
+# 	add-apt-repository ppa:openjdk-r/ppa -y && \
+RUN	apt update && \
+	apt -y install openjdk-8-jdk openssh-client openssh-server rsync sudo vim python3 python3-pip git
 
 # RUN ln -s /usr/bin/python3 /usr/bin/python
 
@@ -18,7 +18,7 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER hadoop
 WORKDIR /home/hadoop
 
-ENV JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH=$PATH:$JAVA_HOME/bin
 
 # setup ssh with no passphrase
@@ -51,6 +51,7 @@ RUN cp /tmp/ssh_config $HOME/.ssh/config \
 	&& cp /tmp/core-site.xml $HADOOP_CONF_DIR/core-site.xml \
 	&& cp /tmp/hdfs-site.xml $HADOOP_CONF_DIR/hdfs-site.xml \
 	&& cp /tmp/mapred-site.xml $HADOOP_CONF_DIR/mapred-site.xml \
+	&& cp /tmp/mapred-site.xml $HADOOP_CONF_DIR/mapred-site.xml.template \
 	&& cp /tmp/yarn-site.xml $YARN_CONF_DIR/yarn-site.xml
 
 # set permissions
