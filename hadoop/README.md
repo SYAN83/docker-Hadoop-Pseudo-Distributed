@@ -1,6 +1,6 @@
 # docker-Hadoop-Pseudo-Distributed
 
-For building docker image, run:
+For building docker image, first download hadoop-2.8.4.tar.gz file from one of the mirrow sites via http://www.apache.org/dyn/closer.cgi/hadoop/common/ and untar to the same directory, then run:
 
 ```bash
 docker build -t hadoop-pdm .
@@ -19,7 +19,7 @@ docker run -it \
 	hadoop-pdm
 ```
 
-To resolve container name conflict, run:
+To resolve container name conflict error, run the follow command before launching the cluster:
 ```bash
 docker ps -aq --no-trunc -f status=exited | xargs docker rm
 ```
