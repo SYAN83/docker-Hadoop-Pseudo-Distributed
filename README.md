@@ -1,12 +1,12 @@
 # docker-Hadoop-Pseudo-Distributed
 
-To build:
+For building docker image, run:
 
 ```bash
 docker build -t hadoop-pdm .
 ```
 
-To run:
+For launching hadoop in pseudo-distributed mode, run:
 
 ```bash
 docker run -it \
@@ -17,4 +17,9 @@ docker run -it \
 	--name hadoop-cluster \
 	--mount type=bind,source="$(pwd)"/examples,target=/home/hadoop/examples \
 	hadoop-pdm
+```
+
+To resolve container name conflict, run:
+```bash
+docker ps -aq --no-trunc -f status=exited | xargs docker rm
 ```
