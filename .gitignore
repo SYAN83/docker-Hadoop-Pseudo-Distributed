@@ -1,2 +1,3 @@
 hadoop-*
 .DS_Store
+*.class
