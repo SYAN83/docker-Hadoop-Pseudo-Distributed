@@ -3,6 +3,7 @@
 # VERSION:
 #	Tez:	0.9.1
 #	Hive:	2.3.3
+#	Pig:	0.17.0
 
 FROM hadoop-pdm
 
@@ -11,16 +12,12 @@ LABEL description="This image sets up a hive cluster"
 
 USER hadoop
 
-# COPY apache-tez-0.9.1-bin /usr/local/apache-tez-0.9.1-bin
-# RUN sudo ln -s /usr/local/apache-tez-0.9.1-bin /usr/local/tez
-
-
 # Install maven
 RUN sudo apt update && \
 	sudo apt -y install maven autoconf libtool
 
+# Install protobuf
 COPY protobuf-2.5.0 /home/hadoop/protobuf-2.5.0
-
 RUN sudo chown -R hadoop:hadoop /home/hadoop/protobuf-2.5.0 \
 	&& cd /home/hadoop/protobuf-2.5.0 \
 	&& chmod +x autogen.sh && ./autogen.sh \
@@ -28,6 +25,7 @@ RUN sudo chown -R hadoop:hadoop /home/hadoop/protobuf-2.5.0 \
 	&& make && sudo make install \
 	&& rm -r /home/hadoop/protobuf-2.5.0
 
+# Install tez
 COPY apache-tez-0.9.1-src /usr/local/apache-tez-0.9.1-src
 COPY configs/ /tmp/
 
@@ -44,18 +42,23 @@ RUN sudo chown -R hadoop:hadoop /usr/local/apache-tez-0.9.1-src \
 	&& mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true \
 	&& tar xzvf tez-dist/target/tez-0.9.1-minimal.tar.gz -C $TEZ_JARS
 
+# Install Pig
+COPY pig-0.17.0 /usr/local/pig-0.17.0
+
+ENV PIG_HOME=/usr/local/pig-0.17.0
+ENV PIG_CONF_DIR=$PIG_HOME/conf
+ENV PIG_CLASSPATH=$HADOOP_CLASSPATH/HADOOP_CONF_DIR
+ENV PATH=$PATH:$PIG_HOME/bin
+
+RUN sudo chown -R hadoop:hadoop /usr/local/pig-0.17.0 \
+	&& sudo ln -s /usr/local/pig-0.17.0 /usr/local/pig \ 
+	&& mv /tmp/pig.properties $PIG_CONF_DIR/pig.properties
+
+
 RUN sudo chown hadoop:hadoop /tmp/bootstrap.sh \ 
 	&& chmod +x /tmp/bootstrap.sh
-	
 ENTRYPOINT /tmp/bootstrap.sh; bash
 
-
-
-# COPY apache-maven-3.5.4 /usr/local/apache-maven-3.5.4
-# RUN sudo chown -R hadoop:hadoop /usr/local/apache-maven-3.5.4
-# RUN sudo ln -s /usr/local/apache-maven-3.5.4 /usr/local/maven
-
-# ENV PATH=$PATH:/usr/local/maven/bin
 
 # Install Hive
 # RUN echo 'Install Hive'
