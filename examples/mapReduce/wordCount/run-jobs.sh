@@ -1,7 +1,12 @@
 #!/bin/bash
+if ! $(hadoop fs -test -d wordcount) ; then
+    echo "Creating wordcount directory"
+    hadoop fs -mkdir wordcount
+fi
+
 if ! $(hadoop fs -test -d wordcount/input) ; then
     echo "Adding input file(s) to hdfs"
-    hadoop fs -put input/ wordcount/input;
+    hadoop fs -put -p input/ wordcount/input;
 fi
 
 if $(hadoop fs -test -d wordcount/output) ; then

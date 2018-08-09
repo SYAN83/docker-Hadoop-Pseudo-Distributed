@@ -12,15 +12,10 @@
   See the License for the specific language governing permissions and
   limitations under the License. See accompanying LICENSE file.
 -->
-<!-- yarn-site.xml -->
+<!-- mapred-site.xml -->
 <configuration>
-<!-- Site specific YARN configuration properties -->
 	<property>
-		<name>yarn.resourcemanager.hostname</name>
-		<value>0.0.0.0</value>
-	</property>
-	<property>
-		<name>yarn.nodemanager.aux-services</name>
-		<value>mapreduce_shuffle</value>
+		<name>mapreduce.framework.name</name>
+		<value>yarn-tez</value>
 	</property>
 </configuration>

@@ -1,3 +1,6 @@
 hadoop-*
+apache-hive-*
+apache-tez-*
+protobuf-2.5.0
 .DS_Store
 *.class
