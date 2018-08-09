@@ -5,7 +5,7 @@ if ! $(hadoop fs -test -d wordcount) ; then
 fi
 if ! $(hadoop fs -test -d wordcount/input) ; then
     echo "Adding input file(s) to hdfs"
-    hadoop fs -put input/ wordcount/input;
+    hadoop fs -put ../../data/wordCount_input/ wordcount/input;
 fi
 if $(hadoop fs -test -d wordcount/output) ; then
     echo "Removing output directory from hdfs"

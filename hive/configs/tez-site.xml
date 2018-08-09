@@ -10,4 +10,8 @@
     <name>tez.use.cluster.hadoop-libs</name>
     <value>false</value>
   </property> 
+  <property>
+    <name>tez.am.resource.memory.mb</name>
+    <value>2048</value>
+  </property>
 </configuration>
