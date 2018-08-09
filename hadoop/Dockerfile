@@ -2,7 +2,7 @@
 #
 # VERSION:
 # 	Ubuntu: 16.04
-#	Java:	8
+#	Java:	1.8
 #	Hadoop:	2.8.4
 #	Python:	3.5.5
 
