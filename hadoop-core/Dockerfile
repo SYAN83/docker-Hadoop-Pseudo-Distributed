@@ -77,5 +77,5 @@ EXPOSE 50060
 # MapReduce JobHistory Server
 EXPOSE 19888
 
-# COPY bootstrap.sh /tmp/
+COPY test/ test/
 ENTRYPOINT /conf/bootstrap.sh; bash
