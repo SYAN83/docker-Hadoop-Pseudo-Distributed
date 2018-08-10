@@ -1,24 +1,45 @@
-# docker-Hadoop-Pseudo-Distributed
 
-For building docker image, first download hadoop-2.8.4.tar.gz file from one of the mirrow sites via http://www.apache.org/dyn/closer.cgi/hadoop/common/ and untar to the same directory, then run:
+# Hadoop core (pseudo-distributed mode)
 
-```bash
-docker build -t hadoop-core .
-```
+## Verson:
+  - Ubuntu: 16.04
+  - Python: 3.5.5
+  - Hadoop: 2.8.4
 
-For launching hadoop in pseudo-distributed mode, run:
+## Build docker image:
 
-```bash
-docker run -it \
-	-p 8088:8088 \
-	-p 19888:19888 \
-	-p 50070:50070 \
-	--name hadoop-cluster \
-	--mount type=bind,source="$(pwd)"/../examples,target=/home/hadoop/examples \
-	hadoop-core
-```
+- Download hadoop release (version 2.8.4) tarball and untar into `hadoop` directory:
 
-To resolve container name conflict error, run the follow command before launching the cluster:
-```bash
-docker ps -aq --no-trunc -f status=exited | xargs docker rm
-```
+  ```bash
+  cd hadoop
+  wget http://apache.osuosl.org/hadoop/common/hadoop-2.8.4/hadoop-2.8.4.tar.gz
+  tar -xzvf hadoop-2.8.4.tar.gz
+  ```
+  
+- Build docker image (docker image name: hadoop-pdm):
+
+  ```bash
+  docker build -t hadoop-core .
+  ```
+  
+## Launch Hadoop cluster:
+
+  - Launch Hadoop in pseudo-distributed mode:
+
+  ```bash
+  docker run -it \
+    -p 8088:8088 \
+    -p 19888:19888 \
+    -p 50070:50070 \
+    --name hadoop-cluster \
+    --mount type=bind,source="$(pwd)"/../examples,target=/home/hadoop/examples \
+    hadoop-core
+  ```
+
+## Toubleshooting
+
+  To resolve container name conflict error, run the follow command before launching the cluster:
+  
+  ```bash
+  docker ps -aq --no-trunc -f status=exited | xargs docker rm
+  ```
