@@ -5,16 +5,24 @@
   - Python: 3.5.5
   - Hadoop: 2.8.4
 
-## Build:
+## Build docker image:
 
-- Download Packages into `hadoop` directory:
+- Download hadoop release (version 2.8.4) tarball and untar into `hadoop` directory:
+
+  ```bash
+  cd hadoop
+  wget http://apache.osuosl.org/hadoop/common/hadoop-2.8.4/hadoop-2.8.4.tar.gz
+  tar -xzvf hadoop-2.8.4.tar.gz
+  ```
   
-- Build docker image (image name: hadoop-pdm):
+- Build docker image (docker image name: hadoop-pdm):
 
   ```bash
   docker build -t hadoop-pdm .
   ```
-## Launch
+  
+## Launch Hadoop cluster:
+
   - Launch Hadoop in pseudo-distributed mode:
 
   ```bash
