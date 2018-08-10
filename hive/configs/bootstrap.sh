@@ -6,6 +6,9 @@ $HADOOP_CONF_DIR/hadoop-env.sh
 sudo /etc/init.d/ssh start
 
 tez_ver=tez-0.9.1
+
+# start zookeeper
+$ZOOKEEPER_HOME/bin/zkServer.sh start
 # start hdfs
 $HADOOP_HOME/sbin/start-dfs.sh
 # create HDFS directory

@@ -3,7 +3,7 @@
 For building docker image, first download hadoop-2.8.4.tar.gz file from one of the mirrow sites via http://www.apache.org/dyn/closer.cgi/hadoop/common/ and untar to the same directory, then run:
 
 ```bash
-docker build -t hadoop-pdm .
+docker build -t hadoop-core .
 ```
 
 For launching hadoop in pseudo-distributed mode, run:
@@ -15,7 +15,7 @@ docker run -it \
 	-p 50070:50070 \
 	--name hadoop-cluster \
 	--mount type=bind,source="$(pwd)"/../examples,target=/home/hadoop/examples \
-	hadoop-pdm
+	hadoop-core
 ```
 
 To resolve container name conflict error, run the follow command before launching the cluster:
