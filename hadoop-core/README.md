@@ -6,7 +6,7 @@
   - Python: 3.5.5
   - Hadoop: 2.8.4
 
-## Build docker image:
+## Build Hadoop docker image:
 
 - Download hadoop release (version 2.8.4) tarball and untar into `hadoop` directory:
 
@@ -16,7 +16,7 @@
   tar -xzvf hadoop-2.8.4.tar.gz
   ```
   
-- Build docker image (docker image name: hadoop-pdm):
+- Build docker image (docker image name: hadoop-core):
 
   ```bash
   docker build -t hadoop-core .
