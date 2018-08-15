@@ -100,4 +100,16 @@ RUN sudo dpkg -i /conf/mysql-connector-java_${mysql_conn_var}-1ubuntu16.04_all.d
  	&& sudo apt install -f \
  	&& sudo ln -s /usr/share/java/mysql-connector-java-${mysql_conn_var}.jar $HIVE_HOME/lib/mysql-connector-java.jar
 
+
+# Install spark
+
+ENV SPARK_HOME=/usr/local/spark-2.3.1-bin-hadoop2.7
+ENV SPARK_CONF_DIR=$SPARK_HOME/conf
+ENV PATH=$PATH:$SPARK_HOME/bin
+COPY spark-2.3.1-bin-hadoop2.7 $SPARK_HOME
+RUN sudo chown -R hadoop:hadoop $SPARK_HOME \
+	&& sudo ln -s $SPARK_HOME /usr/local/spark \
+	&& sudo ln -s $HIVE_CONF_DIR/hive-site.xml $SPARK_CONF_DIR/hive-site.xml
+
+
 ENTRYPOINT /conf/bootstrap.sh; bash

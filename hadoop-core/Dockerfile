@@ -77,5 +77,7 @@ EXPOSE 50060
 # MapReduce JobHistory Server
 EXPOSE 19888
 
-COPY test/ test/
+# install mrjob
+RUN pip3 install mrjob
+
 ENTRYPOINT /conf/bootstrap.sh; bash
