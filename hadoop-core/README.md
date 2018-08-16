@@ -25,16 +25,25 @@
 ## Launch Hadoop cluster:
 
   - Launch Hadoop in pseudo-distributed mode:
-
+  
   ```bash
+  docker run -it hadoop-core
+  ```
+  
+  - Launch Hadoop with bind mount and port forwarding:
+  
+  ```bash
+  cd examples/
   docker run -it \
     -p 8088:8088 \
     -p 19888:19888 \
     -p 50070:50070 \
-    --name hadoop-cluster \
-    --mount type=bind,source="$(pwd)"/../examples,target=/home/hadoop/examples \
+    --name hadoop-core \
+    --mount type=bind,source="$(pwd)",target=/home/hadoop/examples \
     hadoop-core
   ```
+  
+  - Note: Replace image name `hadoop-core` with `syan83/hadoop-core:latest` if you're pulling the image from [Docker Hub](https://hub.docker.com/r/syan83/hadoop-core/)
 
 ## Toubleshooting
 
