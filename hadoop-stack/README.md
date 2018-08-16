@@ -42,4 +42,4 @@ This docker image is based on `syan83/hadoop-core`
     hadoop-stack
   ```
   
-- Note: Replace image name `hadoop-stack` with `syan83/hadoop-stack:latest` if you're pulling the image from [Docker Hub](https://hub.docker.com/r/syan83/hadoop-core/)
+- Note: Replace image name `hadoop-stack` with `syan83/hadoop-stack:latest` if you're pulling the image from [Docker Hub](https://hub.docker.com/r/syan83/hadoop-stack/)
