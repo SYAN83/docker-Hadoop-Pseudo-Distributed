@@ -4,8 +4,9 @@
 #	Tez:	0.9.1
 #	Hive:	2.3.3
 #	Pig:	0.17.0
+#	Sqoop:	1.4.7
 
-FROM hadoop-core
+FROM syan83/hadoop-core:latest
 
 LABEL maintainer="Shu Yan <yanshu.usc@gmail.com>"
 LABEL description="This image sets up a hadoop cluster with tez/hive/pig"
@@ -42,7 +43,7 @@ RUN echo 'Installing Tez'
 ENV TEZ_CONF_DIR=$HADOOP_CONF_DIR
 ENV TEZ_HOME=/usr/local/apache-tez-0.9.1-src
 ENV TEZ_JARS=$TEZ_HOME
-ENV HADOOP_CLASSPATH=${TEZ_CONF_DIR}:${TEZ_JARS}/*:${TEZ_JARS}/lib/*
+ENV HADOOP_CLASSPATH=${HADOOP_CLASSPATH}:${TEZ_CONF_DIR}:${TEZ_JARS}/*:${TEZ_JARS}/lib/*
 
 COPY apache-tez-0.9.1-src $TEZ_HOME
 RUN sudo chown -R hadoop:hadoop /usr/local/apache-tez-0.9.1-src \
@@ -86,7 +87,8 @@ RUN echo 'Installing Hive'
 
 ENV HIVE_HOME=/usr/local/apache-hive-2.3.3-bin
 ENV HIVE_CONF_DIR=$HIVE_HOME/conf
-ENV PATH=$PATH:$HIVE_HOME/bin
+ENV HCAT_HOME=$HIVE_HOME/hcatalog
+ENV PATH=$PATH:$HIVE_HOME/bin:$HCAT_HOME/bin
 
 COPY apache-hive-2.3.3-bin $HIVE_HOME
 RUN sudo chown -R hadoop:hadoop $HIVE_HOME \
@@ -100,6 +102,16 @@ RUN sudo dpkg -i /conf/mysql-connector-java_${mysql_conn_var}-1ubuntu16.04_all.d
  	&& sudo apt install -f \
  	&& sudo ln -s /usr/share/java/mysql-connector-java-${mysql_conn_var}.jar $HIVE_HOME/lib/mysql-connector-java.jar
 
+
+# Install sqoop
+
+ENV sqoop_var=1.4.7
+ENV SQOOP_HOME=/usr/local/sqoop-${sqoop_var}
+ENV PATH=$PATH:$SQOOP_HOME/bin
+
+COPY sqoop-1.4.7.bin__hadoop-2.6.0 $SQOOP_HOME
+RUN sudo chown -R hadoop:hadoop $SQOOP_HOME \
+	&& sudo ln -s $SQOOP_HOME /usr/local/sqoop
 
 # Install spark
 

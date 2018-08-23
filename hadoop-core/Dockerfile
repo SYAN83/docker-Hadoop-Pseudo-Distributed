@@ -15,7 +15,8 @@ USER root
 
 # update system
 RUN	apt update \
-	&& apt -y install openjdk-8-jdk openssh-client openssh-server rsync sudo vim git python python-pip python3 python3-pip
+	&& apt -y install openjdk-8-jdk openssh-client openssh-server rsync sudo vim git python python-pip python3 python3-pip \
+	&& apt -y install figlet
 
 # Create hadoop user
 RUN adduser --disabled-password --gecos '' hadoop

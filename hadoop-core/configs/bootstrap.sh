@@ -15,3 +15,7 @@ $HADOOP_HOME/bin/hdfs dfs -mkdir /user \
 $HADOOP_HOME/sbin/start-yarn.sh
 # start historyserver
 $HADOOP_HOME/sbin/mr-jobhistory-daemon.sh start historyserver
+# welcome image
+echo
+figlet -f slant Hadoop Core
+echo 

@@ -5,6 +5,7 @@ $HADOOP_CONF_DIR/hadoop-env.sh
 # start SSH
 sudo /etc/init.d/ssh start
 # start mysql
+sudo chown -R mysql:mysql /var/lib/mysql
 sudo /etc/init.d/mysql start
 # mysql create hive user
 mysql -uroot -e "CREATE USER 'hive'@'localhost' IDENTIFIED BY 'hive_passwd';
@@ -14,7 +15,14 @@ FLUSH PRIVILEGES;"
 # create hive initial database schema
 schematool -dbType mysql -initSchema
 # start hive metastore
-# nohup hive --service metastore &
+# hive --service metastore &
+
+# mysql create hadoop user
+mysql -uroot -e "CREATE USER 'hadoop'@'localhost';
+CREATE DATABASE hadoop;
+GRANT ALL PRIVILEGES ON hadoop.* TO 'hadoop'@'localhost';
+FLUSH PRIVILEGES;"
+
 
 tez_ver=tez-0.9.1
 
@@ -38,3 +46,6 @@ $HADOOP_HOME/sbin/start-yarn.sh
 $HADOOP_HOME/sbin/mr-jobhistory-daemon.sh start historyserver
 
 # $HADOOP_HOME/bin/hadoop dfsadmin -safemode leave \
+echo
+figlet -f slant Hadoop Stack
+echo 

@@ -3,6 +3,9 @@ apache-hive-2.3.3-bin/
 apache-tez-0.9.1-src/
 protobuf-2.5.0/
 pig-0.17.0/
-zookeeper-3.4.12
+zookeeper-3.4.12/
+spark-2.3.1-bin*/
+sqoop-1.4.7.bin__hadoop-2.6.0/
 .DS_Store
 *.class
+nohup.out
