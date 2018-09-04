@@ -18,11 +18,10 @@ schematool -dbType mysql -initSchema
 # hive --service metastore &
 
 # mysql create hadoop user
-mysql -uroot -e "CREATE USER 'hadoop'@'localhost';
-CREATE DATABASE hadoop;
-GRANT ALL PRIVILEGES ON hadoop.* TO 'hadoop'@'localhost';
+mysql -uroot -e "CREATE DATABASE hadoop;
+CREATE USER 'hadoop'@'localhost';
+GRANT ALL PRIVILEGES ON *.* TO 'hadoop'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;"
-
 
 tez_ver=tez-0.9.1
 
