@@ -15,8 +15,14 @@ USER root
 
 # update system
 RUN	apt update \
-	&& apt -y install openjdk-8-jdk openssh-client openssh-server rsync sudo vim git python python-pip python3 python3-pip \
-	&& apt -y install figlet
+	&& apt -y install openjdk-8-jdk openssh-client openssh-server rsync sudo vim git figlet python python-pip python3 python3-pip
+
+# install jupyter
+RUN pip3 install --upgrade pip
+RUN pip3 install jupyter
+
+# install mrjob
+RUN pip3 install mrjob
 
 # Create hadoop user
 RUN adduser --disabled-password --gecos '' hadoop
@@ -77,8 +83,7 @@ EXPOSE 50030
 EXPOSE 50060
 # MapReduce JobHistory Server
 EXPOSE 19888
-
-# install mrjob
-RUN pip3 install mrjob
+# Jupyter notebook Port
+EXPOSE 8888
 
 ENTRYPOINT /conf/bootstrap.sh; bash

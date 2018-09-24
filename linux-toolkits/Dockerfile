@@ -14,20 +14,21 @@ USER root
 
 # update system
 RUN	apt update \
-	&& apt -y install openjdk-8-jdk openssh-client openssh-server rsync sudo vim git python python-pip python3 python3-pip \
-	&& apt -y install figlet
+	&& apt -y install openjdk-8-jdk openssh-client openssh-server rsync sudo vim git figlet python python-pip python3 python3-pip
 
 # install jupyter
 RUN pip3 install --upgrade pip
 RUN pip3 install jupyter
 
-# Install Mysql
+# Install MySQL
 RUN sudo apt update \
 	&& sudo DEBIAN_FRONTEND=noninteractive apt -y install mysql-server \
 	&& sudo usermod -d /var/lib/mysql/ mysql
-# 	&& echo 'validate_password_policy=LOW' >> /etc/mysql/my.cnf
 
-# Copy configs to Docker
+# Install MySQL kernel
+RUN pip install git+https://github.com/shemic/jupyter-mysql-kernel
+
+# Copy configs to Docker image
 COPY configs/ /conf/
 
 # Create ubuntu user
@@ -37,7 +38,12 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER ubuntu
 WORKDIR /home/ubuntu
 
+RUN mkdir -p /home/ubuntu/.local/config/
+RUN cp /conf/mysql_config.json /home/ubuntu/.local/config/
+
 # Jupyter notebook Port
 EXPOSE 8888
+EXPOSE 3306
+EXPOSE 22
 
 ENTRYPOINT /conf/bootstrap.sh; bash
