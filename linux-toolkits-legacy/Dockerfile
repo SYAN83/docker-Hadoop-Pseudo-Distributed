@@ -14,8 +14,7 @@ USER root
 
 # update system
 RUN	apt update \
-	&& apt -y install openjdk-8-jdk openssh-client openssh-server rsync sudo vim git figlet python3 python3-pip
-RUN sudo ln -s /usr/bin/python3 /usr/bin/python
+	&& apt -y install openjdk-8-jdk openssh-client openssh-server rsync sudo vim git figlet python python-pip python3 python3-pip
 
 # install jupyter
 RUN pip3 install --upgrade pip
@@ -26,6 +25,9 @@ RUN sudo apt update \
 	&& sudo DEBIAN_FRONTEND=noninteractive apt -y install mysql-server \
 	&& sudo usermod -d /var/lib/mysql/ mysql
 
+# Install MySQL kernel
+RUN pip install git+https://github.com/shemic/jupyter-mysql-kernel
+
 # Copy configs to Docker image
 COPY configs/ /conf/
 
@@ -35,6 +37,9 @@ RUN adduser ubuntu sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER ubuntu
 WORKDIR /home/ubuntu
+
+RUN mkdir -p /home/ubuntu/.local/config/
+RUN cp /conf/mysql_config.json /home/ubuntu/.local/config/
 
 # Jupyter notebook Port
 EXPOSE 8888
