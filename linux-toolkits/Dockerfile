@@ -3,7 +3,7 @@
 # VERSION:
 # 	Ubuntu: 16.04
 #	Java:	1.8
-#	Python:	3.5.5
+#	Python:	3.5.2
 
 FROM ubuntu:16.04
 

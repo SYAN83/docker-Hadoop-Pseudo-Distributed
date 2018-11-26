@@ -16,9 +16,7 @@ USER hadoop
 # Install Mysql
 RUN sudo apt update \
 	&& sudo DEBIAN_FRONTEND=noninteractive apt -y install mysql-server \
-	&& sudo usermod -d /var/lib/mysql/ mysql \
-	&& echo 'validate_password_policy=LOW' >> sudo /etc/mysql/my.cnf
-
+	&& sudo usermod -d /var/lib/mysql/ mysql
 
 # Install maven
 RUN echo 'Installing maven'
@@ -68,20 +66,6 @@ RUN sudo chown -R hadoop:hadoop $PIG_HOME \
 	&& sudo ln -s $PIG_HOME /usr/local/pig \ 
 	&& cp /conf/pig.properties $PIG_CONF_DIR/pig.properties
 
-# Install Zookeeper
-RUN echo 'Installing Zookeeper'
-
-ENV ZOOKEEPER_HOME=/usr/local/zookeeper-3.4.12
-ENV PATH=$PATH:$ZOOKEEPER_HOME/bin
-
-COPY zookeeper-3.4.12 $ZOOKEEPER_HOME
-RUN sudo chown -R hadoop:hadoop $ZOOKEEPER_HOME \
-	&& sudo ln -s $ZOOKEEPER_HOME /usr/local/zookeeper \ 
-	&& cp /conf/zoo.cfg $ZOOKEEPER_HOME/conf/zoo.cfg \
-	&& sudo mkdir -p /var/lib/zookeeper \
-	&& sudo chown -R hadoop /var/lib/zookeeper
-
-
 # Install Hive
 RUN echo 'Installing Hive'
 
@@ -95,33 +79,11 @@ RUN sudo chown -R hadoop:hadoop $HIVE_HOME \
 	&& sudo ln -s $HIVE_HOME /usr/local/hive \
 	&& cp /conf/hive-site.xml $HIVE_CONF_DIR/hive-site.xml 
 
-
 # Install mysql connector
 ENV mysql_conn_var=8.0.12
 RUN sudo dpkg -i /conf/mysql-connector-java_${mysql_conn_var}-1ubuntu16.04_all.deb \
  	&& sudo apt install -f \
  	&& sudo ln -s /usr/share/java/mysql-connector-java-${mysql_conn_var}.jar $HIVE_HOME/lib/mysql-connector-java.jar
-
-
-# Install sqoop
-
-ENV sqoop_var=1.4.7
-ENV SQOOP_HOME=/usr/local/sqoop-${sqoop_var}
-ENV PATH=$PATH:$SQOOP_HOME/bin
-
-COPY sqoop-1.4.7.bin__hadoop-2.6.0 $SQOOP_HOME
-RUN sudo chown -R hadoop:hadoop $SQOOP_HOME \
-	&& sudo ln -s $SQOOP_HOME /usr/local/sqoop
-
-# Install spark
-
-ENV SPARK_HOME=/usr/local/spark-2.3.1-bin-hadoop2.7
-ENV SPARK_CONF_DIR=$SPARK_HOME/conf
-ENV PATH=$PATH:$SPARK_HOME/bin
-COPY spark-2.3.1-bin-hadoop2.7 $SPARK_HOME
-RUN sudo chown -R hadoop:hadoop $SPARK_HOME \
-	&& sudo ln -s $SPARK_HOME /usr/local/spark \
-	&& sudo ln -s $HIVE_CONF_DIR/hive-site.xml $SPARK_CONF_DIR/hive-site.xml
 
 
 ENTRYPOINT /conf/bootstrap.sh; bash
