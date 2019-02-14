@@ -28,7 +28,7 @@ if $(hadoop fs -test -d $hdfs_dir/output) ; then
 fi
 # Run hadoop streaming test:
 echo "Testing Hadoop streaming"
-hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-2.8.4.jar \
+hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar \
     -files mapper.py,reducer.py \
     -input $hdfs_dir/input \
     -output $hdfs_dir/output \

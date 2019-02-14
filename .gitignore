@@ -9,3 +9,4 @@ sqoop-1.4.7.bin__hadoop-2.6.0/
 .DS_Store
 *.class
 nohup.out
+wc.jar
